@@ -16,6 +16,13 @@ def put(file_name):
     file = open(file_name, "rb")
     file_size = os.path.getsize(file_name)
 
+    clientSocket.send(file_name.encode())
+    clientSocket.send(str(file_size).encode())
+
+    data = file.read()
+    clientSocket.sendall(data)
+    client.send(b"UPLOAD FINISHED")
+
     
 
 def ls():
