@@ -8,7 +8,7 @@ import pickle
 # we need to use pickle to take the list of strings from terminal input to safely send to server
 
 """
-This initial connection is the CONTROL connection, which lasts throughout the session and is used to
+This initial connection is the control connection, which lasts throughout the session and is used to
 transfer all commands
 """
 serverName = sys.argv[1]
@@ -20,7 +20,7 @@ connectionSocket, addr = controlSocket.accept()
 
 """
 Each time a new command is inputted into the terminal, we split up the entire command into a list of strings
-This new list of strings is also send to the server using the CONTROL connection, so the server can also prepare
+This new list of strings is also send to the server using the control connection, so the server can also prepare
 to either send or receive data depending on which command is used.
 """
 Disconnect = False
