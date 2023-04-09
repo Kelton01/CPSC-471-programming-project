@@ -1,4 +1,5 @@
 from socket import *
+from serv_functions import *
 import os
 import sys
 
