@@ -8,7 +8,7 @@ def help():
 def get(serverName, serverPort, file_name):
     print("get function")
 
-def put(file_name):
+def put(serverName, serverPort, file_name):
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     clientSocket.connect((serverName, serverPort))
     connectionSocket, addr = clientSocket.accept()
@@ -22,6 +22,7 @@ def put(file_name):
     data = file.read()
     clientSocket.sendall(data)
     clientSocket.send(b"UPLOAD FINISHED")
+    clientSocket.close()
 
     
 
@@ -29,5 +30,4 @@ def ls():
     print("list function")
 
 def quit():
-    connectionSocket.close()
     print("quit function")
