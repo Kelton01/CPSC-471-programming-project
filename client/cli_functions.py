@@ -21,7 +21,7 @@ def put(file_name):
 
     data = file.read()
     clientSocket.sendall(data)
-    client.send(b"UPLOAD FINISHED")
+    clientSocket.send(b"UPLOAD FINISHED")
 
     
 
