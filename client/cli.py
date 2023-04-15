@@ -12,9 +12,17 @@ This initial connection is the CONTROL connection, which lasts throughout the se
 transfer all commands
 """
 serverName = sys.argv[1]
-serverPort = sys.argv[2]
 
-controlSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# (note) need to cast to int since cmd line arg is a string
+serverPort = int(sys.argv[2])
+
+if len(sys.argv) < 3:
+    print("Please specify the <name> and <port>")
+
+# controlSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# (note) since we are importing * we dont ned to call socket.socket 
+controlSocket = socket(AF_INET, SOCK_STREAM)
 controlSocket.connect((serverName, serverPort))
 connectionSocket, addr = controlSocket.accept()
 
@@ -30,18 +38,22 @@ while not Disconnect:
     all_words = cmd.split()
     controlCommand = pickle.dumps(all_words)
     if all_words[0] == "get" and len(all_words) == 2:
+        print('1')
         controlSocket.send(controlCommand)
         get(serverName, serverPort, all_words[1])
 
     elif all_words[0] == "put" and len(all_words) == 2:
+        print('2')
         controlSocket.send(controlCommand)
         put(serverName, serverPort, all_words[1])
 
     elif all_words[0] == "ls" and len(all_words) == 1:
+        print('3')
         controlSocket.send(controlCommand)
         ls(serverName, serverPort)
 
     elif all_words[0] == "quit" and len(all_words) == 1:
+        print('4')
         controlSocket.send(controlCommand)
         controlSocket.close()
         Disconnect = True

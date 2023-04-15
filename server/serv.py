@@ -5,9 +5,15 @@ import sys
 
 #sender = connect, receiver = bind
 
-serverPort = sys.argv[1]
+# (note) need to cast the string argument -> int
+serverPort = int(sys.argv[1])
 
-serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# (note) line below changes to the file directory to the files folder to receive the files
+# os.chdir("../files")
+# print(current
+
+# (note) since we imported * no need to socket.socket
+serverSocket = socket(AF_INET, SOCK_STREAM)
 
 serverSocket.bind(('',serverPort))
 
