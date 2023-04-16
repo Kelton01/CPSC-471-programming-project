@@ -6,23 +6,47 @@ def help():
     print("help function")
 
 def get(serverName, serverPort, file_name):
-    print("get function")
+    dataSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    dataSocket.connect((serverName, serverPort))
+    dataSocket.listen()
+
+    connectionSocket, addr = dataSocket.accept()
+
+    file_name = connectionSocket.recv(1024).decode()
+    file_size = client.recv(1024).decode()
+
+    file = open(file_name, "wd")
+
+    file_bytes = b""
+
+    done = False
+    while not done:
+        data = client.recv(1024)
+        if file_bytes[-3:] == b"EOF":
+            done = True
+        else:
+            file_bytes += data
+
+    file.write(file_bytes)
+    file.close()
+    dataSocket.close()
 
 def put(serverName, serverPort, file_name):
-    clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    clientSocket.connect((serverName, serverPort))
-    connectionSocket, addr = clientSocket.accept()
+    dataSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    dataSocket.connect((serverName, serverPort))
+    connectionSocket, addr = dataSocket.accept()
 
     file = open(file_name, "rb")
     file_size = os.path.getsize(file_name)
 
-    clientSocket.send(file_name.encode())
-    clientSocket.send(str(file_size).encode())
+    datatSocket.send(file_name.encode())
+    dataSocket.send(str(file_size).encode())
 
     data = file.read()
-    clientSocket.sendall(data)
-    clientSocket.send(b"UPLOAD FINISHED")
-    clientSocket.close()
+    dataSocket.sendall(data)
+    dataSocket.send(b"EOF")
+    file.close()
+    dataSocket.close()
 
     
 
