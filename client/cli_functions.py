@@ -6,7 +6,7 @@ def help():
     print("help function")
 
 def get(serverName, serverPort, file_name):
-    dataSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     dataSocket.listen()
 
@@ -32,7 +32,7 @@ def get(serverName, serverPort, file_name):
     dataSocket.close()
 
 def put(serverName, serverPort, file_name):
-    dataSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     connectionSocket, addr = dataSocket.accept()
 
