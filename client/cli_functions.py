@@ -39,7 +39,7 @@ def put(serverName, serverPort, file_name):
     file = open(file_name, "rb")
     file_size = os.path.getsize(file_name)
 
-    datatSocket.send(file_name.encode())
+    dataSocket.send(file_name.encode())
     dataSocket.send(str(file_size).encode())
 
     data = file.read()
