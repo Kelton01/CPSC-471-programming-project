@@ -51,7 +51,14 @@ def upload(serverName, serverPort, file_name):
     
 
 def ls():
-    print("list function")
+    dataSocket = socket(AF_INET, SOCK_STREAM)
+    dataSocket.connect((serverName, serverPort))
+    dataSocket.listen()
+    connectionSocket, addr = dataSocket.accept()
+    data = connectionSocket.recv(1024)
+    file_names = pickle.loads(data)
+    print(file_names)
+    dataSocket.close()
 
 def quit():
     print("quit function")
