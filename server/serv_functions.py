@@ -6,7 +6,7 @@ import sys
 def help():
     print("help function")
 
-def get(serverName, serverPort, file_name):
+def download(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     dataSocket.listen()
@@ -32,7 +32,7 @@ def get(serverName, serverPort, file_name):
     file.close()
     dataSocket.close()
 
-def put(serverName, serverPort, file_name):
+def upload(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     connectionSocket, addr = dataSocket.accept()
@@ -52,7 +52,17 @@ def put(serverName, serverPort, file_name):
     
 
 def ls():
-    print("list function")
+    dataSocket = socket(AF_INET, SOCK_STREAM)
+    dataSocket.connect((serverName, serverPort))
+    connectionSocket, addr = dataSocket.accept()
+
+    files_list = os.listdir()
+    files_list.remove("serv.py")
+    files_list.remove("serv_functions.py")
+    files_pickle = pickle.dumps(files)
+    dataSocket.send(files_pickle)
+    dataSocket.close()
+    print("File List has been sent")
 
 def quit():
     print("quit function")
