@@ -16,8 +16,9 @@ serverName = sys.argv[1]
 # (note) need to cast to int since cmd line arg is a string
 serverPort = int(sys.argv[2])
 
-if len(sys.argv) < 3:
+if len(sys.argv) != 3:
     print("Please specify the <name> and <port>")
+    exit()
 
 # controlSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -28,7 +29,7 @@ connectionSocket, addr = controlSocket.accept()
 
 """
 Each time a new command is inputted into the terminal, we split up the entire command into a list of strings
-This new list of strings is also send to the server using the CONTROL connection, so the server can also prepare
+This new list of strings is also sent to the server using the control connection, so the server can also prepare
 to either send or receive data depending on which command is used.
 """
 Disconnect = False
@@ -40,12 +41,12 @@ while not Disconnect:
     if all_words[0] == "get" and len(all_words) == 2:
         print('1')
         controlSocket.send(controlCommand)
-        get(serverName, serverPort, all_words[1])
+        download(serverName, serverPort, all_words[1])
 
     elif all_words[0] == "put" and len(all_words) == 2:
         print('2')
         controlSocket.send(controlCommand)
-        put(serverName, serverPort, all_words[1])
+        upload(serverName, serverPort, all_words[1])
 
     elif all_words[0] == "ls" and len(all_words) == 1:
         print('3')

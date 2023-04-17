@@ -5,7 +5,7 @@ import sys
 def help():
     print("help function")
 
-def get(serverName, serverPort, file_name):
+def download(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     dataSocket.listen()
@@ -27,11 +27,11 @@ def get(serverName, serverPort, file_name):
         else:
             file_bytes += data
 
-    file.write(file_bytes)
+    file.write(file_bytes[0:-3])
     file.close()
     dataSocket.close()
 
-def put(serverName, serverPort, file_name):
+def upload(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect((serverName, serverPort))
     connectionSocket, addr = dataSocket.accept()
