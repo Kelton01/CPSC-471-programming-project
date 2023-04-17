@@ -27,12 +27,12 @@ while 1:
         if all_words[0] == "get":
             print('1')
             controlSocket.send(controlCommand)
-            put(addr, connectionSocket, all_words[1])
+            upload(addr, connectionSocket, all_words[1])
 
         elif all_words[0] == "put" and len(all_words) == 2:
             print('2')
             controlSocket.send(controlCommand)
-            put(addr, connectionSocket, all_words[1])
+            download(addr, connectionSocket, all_words[1])
 
         elif all_words[0] == "ls" and len(all_words) == 1:
             print('3')
