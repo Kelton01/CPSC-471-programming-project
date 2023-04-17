@@ -32,12 +32,12 @@ while 1:
         elif all_words[0] == "put" and len(all_words) == 2:
             print('2')
             controlSocket.send(controlCommand)
-            put(serverName, serverPort, all_words[1])
+            put(addr, connectionSocket, all_words[1])
 
         elif all_words[0] == "ls" and len(all_words) == 1:
             print('3')
             controlSocket.send(controlCommand)
-            ls(serverName, serverPort)
+            ls(addr, connectionSocket)
 
         elif all_words[0] == "quit" and len(all_words) == 1:
             print('4')
