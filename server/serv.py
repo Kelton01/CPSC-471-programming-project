@@ -2,32 +2,47 @@ from socket import *
 from serv_functions import *
 import os
 import sys
+import pickle
 
 #sender = connect, receiver = bind
 
-# (note) need to cast the string argument -> int
-serverPort = int(sys.argv[1])
+serverPort = sys.argv[1]
 
-# (note) line below changes to the file directory to the files folder to receive the files
-# os.chdir("../files")
-# print(current
+if len(sys.argv) != 2:
+    print("Please specify the <port>")
+    exit()
 
-# (note) since we imported * no need to socket.socket
-serverSocket = socket(AF_INET, SOCK_STREAM)
+controlSocket = socket(AF_INET, SOCK_STREAM)
 
-serverSocket.bind(('',serverPort))
+controlSocket.bind(('',serverPort))
 
-print("The Server is ready to receive")
+controlSocket.listen(1)
+print("The server is ready to receive")
 
-file = open("image.png", "rb")
-file_size = os.path.getsize("image.png")
+while 1:
+    connectionSocket, addr = controlSocket.accept()
+    while not Disconnect:
+        data = connectionSocket.recv(1024)
+        all_words = pickle.loads(data)
+        if all_words[0] == "get":
+            print('1')
+            controlSocket.send(controlCommand)
+            put(addr, connectionSocket, all_words[1])
 
-serverSocket.send("received_image.png".encode())
-serverSocket.send(str(file_size).encode())
+        elif all_words[0] == "put" and len(all_words) == 2:
+            print('2')
+            controlSocket.send(controlCommand)
+            put(serverName, serverPort, all_words[1])
 
-data = file.read()
-serverSocket.sendall(data)
-serverSocket.send(b"<END>")
+        elif all_words[0] == "ls" and len(all_words) == 1:
+            print('3')
+            controlSocket.send(controlCommand)
+            ls(serverName, serverPort)
 
-file.close()
-serverSocket.close()
+        elif all_words[0] == "quit" and len(all_words) == 1:
+            print('4')
+            controlSocket.send(controlCommand)
+            controlSocket.close()
+            Disconnect = True
+        else:
+            help()
