@@ -21,6 +21,7 @@ print("The server is ready to receive")
 
 while 1:
     connectionSocket, addr = controlSocket.accept()
+    Disconnect = False
     while not Disconnect:
         data = connectionSocket.recv(1024)
         all_words = pickle.loads(data)
