@@ -33,7 +33,7 @@ def download(serverName, serverPort, file_name):
 
 def upload(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect((serverName, serverPort))
+    dataSocket.connect((serverName, serverPort+1))
     connectionSocket, addr = dataSocket.accept()
 
     file = open(file_name, "rb")
@@ -52,7 +52,7 @@ def upload(serverName, serverPort, file_name):
 
 def ls():
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect((serverName, serverPort))
+    dataSocket.connect((serverName, serverPort+1))
     dataSocket.listen()
     connectionSocket, addr = dataSocket.accept()
     data = connectionSocket.recv(1024)
