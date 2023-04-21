@@ -25,7 +25,7 @@ if len(sys.argv) != 3:
 # (note) since we are importing * we dont ned to call socket.socket 
 controlSocket = socket(AF_INET, SOCK_STREAM)
 controlSocket.connect((serverName, serverPort))
-connectionSocket, addr = controlSocket.accept()
+#connectionSocket, addr = controlSocket.accept()
 
 """
 Each time a new command is inputted into the terminal, we split up the entire command into a list of strings
@@ -39,12 +39,10 @@ while not Disconnect:
     all_words = cmd.split()
     controlCommand = pickle.dumps(all_words)
     if all_words[0] == "get" and len(all_words) == 2:
-        print('1')
         controlSocket.send(controlCommand)
         download(serverName, serverPort, all_words[1])
 
     elif all_words[0] == "put" and len(all_words) == 2:
-        print('2')
         controlSocket.send(controlCommand)
         upload(serverName, serverPort, all_words[1])
 
