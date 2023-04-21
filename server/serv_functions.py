@@ -3,6 +3,10 @@ import time
 import os
 import sys
 
+
+CURSOR_UP_ONE = '\x1b[1A' 
+ERASE_LINE = '\x1b[2K'
+
 def help():
     print("help function")
 
@@ -21,6 +25,7 @@ def download(serverName, serverPort, file_name):
 
     file_bytes = b""
 
+    print("Downloading: " + file_name + " from client")
     done = False
     while not done:
         data = connectionSocket.recv(1024)
@@ -28,18 +33,19 @@ def download(serverName, serverPort, file_name):
             done = True
         else:
             file_bytes += data
+            print("Bytes recieved: " + str(len(file_bytes)) + " out of " + str(file_size), end="\r") 
 
     file.write(file_bytes[0:-3])
     file.close()
-    dataSocket.close()
+    dataSocket.close() 
+    print("Success: Downloaded " + file_size + " bytes        ")
 
 def upload(serverName, serverPort, file_name):
     time.sleep(1)
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect(('localhost', 5001))
-    #connectionSocket, addr = dataSocket.accept()
 
-    print("FILE NAME:" + file_name)
+    print("Uploading: " + file_name + " to client.")
 
     file = open(file_name, "rb")
     file_size = os.path.getsize(file_name)
@@ -52,6 +58,7 @@ def upload(serverName, serverPort, file_name):
     dataSocket.send(b"EOF")
     file.close()
     dataSocket.close()
+    print("File Upload Successful")
 
     
 
