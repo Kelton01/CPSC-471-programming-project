@@ -7,7 +7,7 @@ def help():
 
 def download(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect((serverName, serverPort))
+    dataSocket.bind((serverName, serverport+1))
     dataSocket.listen()
 
     connectionSocket, addr = dataSocket.accept()
