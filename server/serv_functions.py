@@ -1,5 +1,5 @@
-
 from socket import *
+import time
 import os
 import sys
 
@@ -8,21 +8,22 @@ def help():
 
 def download(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.bind((serverName, serverport+1))
+    dataSocket.bind(('localhost', 5001))
     dataSocket.listen()
 
     connectionSocket, addr = dataSocket.accept()
 
     file_name = connectionSocket.recv(1024).decode()
-    file_size = client.recv(1024).decode()
+    print("FILE NAME: " + file_name)
+    file_size = connectionSocket.recv(1024).decode()
 
-    file = open(file_name, "wd")
+    file = open(file_name, "wb")
 
     file_bytes = b""
 
     done = False
     while not done:
-        data = client.recv(1024)
+        data = connectionSocket.recv(1024)
         if file_bytes[-3:] == b"EOF":
             done = True
         else:
@@ -33,9 +34,12 @@ def download(serverName, serverPort, file_name):
     dataSocket.close()
 
 def upload(serverName, serverPort, file_name):
+    time.sleep(1)
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect((serverName, serverPort+1))
-    connectionSocket, addr = dataSocket.accept()
+    dataSocket.connect(('localhost', 5001))
+    #connectionSocket, addr = dataSocket.accept()
+
+    print("FILE NAME:" + file_name)
 
     file = open(file_name, "rb")
     file_size = os.path.getsize(file_name)
@@ -51,10 +55,10 @@ def upload(serverName, serverPort, file_name):
 
     
 
-def ls():
+def ls(serverName, serverPort):
+    time.sleep(1)
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect((serverName, serverPort+1))
-    connectionSocket, addr = dataSocket.accept()
+    dataSocket.connect(('localhost', 5001))
 
     files_list = os.listdir()
     files_list.remove("serv.py")
