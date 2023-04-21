@@ -22,12 +22,14 @@ def download(serverName, serverPort, file_name):
     file_bytes = b""
 
     done = False
+    print("Sending File...")
     while not done:
         data = connectionSocket.recv(1024)
         if file_bytes[-3:] == b"EOF":
             done = True
         else:
             file_bytes += data
+            print("Bytes recieved: " + str(len(file_bytes)) + "out of " + file_size, end="\r") 
 
     file.write(file_bytes[0:-3])
     file.close()
@@ -37,7 +39,6 @@ def upload(serverName, serverPort, file_name):
     time.sleep(1)
     dataSocket = socket(AF_INET, SOCK_STREAM)
     dataSocket.connect(('localhost', 5001))
-    #connectionSocket, addr = dataSocket.accept()
 
     print("FILE NAME:" + file_name)
 
