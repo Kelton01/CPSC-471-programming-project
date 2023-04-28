@@ -2,6 +2,7 @@ from socket import *
 import time
 import os
 import sys
+import pickle
 
 def help():
     print("help function")
@@ -60,13 +61,23 @@ def upload(serverName, serverPort, file_name):
 
 def ls(serverName, serverPort):
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect(('localhost', 5001))
+    dataSocket.bind(('localhost', 5001))
     dataSocket.listen()
     connectionSocket, addr = dataSocket.accept()
 
     data = connectionSocket.recv(1024)
     file_names = pickle.loads(data)
-    print(file_names)
+    print('~~~~~~Files in Directory~~~~~~ \n')
+    for f in file_names:
+        main_dir = os.path.split(os.path.abspath(__file__))[0]
+        new_main = os.path.split(main_dir)[0]
+        server_dir = os.path.join(new_main, 'server')
+        data_dir = os.path.join(server_dir,f)
+        if os.path.isfile(data_dir):
+            print(f'• {f}\t File')
+        elif os.path.isdir(data_dir):
+            print(f'• {f}\tDirectory')
+    print('\n')
     dataSocket.close()
 
 def quit():

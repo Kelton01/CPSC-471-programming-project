@@ -2,7 +2,7 @@ from socket import *
 import time
 import os
 import sys
-
+import pickle
 
 CURSOR_UP_ONE = '\x1b[1A' 
 ERASE_LINE = '\x1b[2K'
@@ -70,7 +70,7 @@ def ls(serverName, serverPort):
     files_list = os.listdir()
     files_list.remove("serv.py")
     files_list.remove("serv_functions.py")
-    files_pickle = pickle.dumps(files)
+    files_pickle = pickle.dumps(files_list)
     dataSocket.send(files_pickle)
     dataSocket.close()
     print("File List has been sent")
