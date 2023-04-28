@@ -1,0 +1,11 @@
+DESIGN PROTOCOL:
+
+1.Commands that are inputed by the user at the client would be sent to the server. Client will begin preparing the corresponding functions.
+2.Server receives the command and prepares the correspoding functions to either receive or send data.
+3.The sender and receiver now establish a data connection.
+4.The sender will send the file name and the file size over the data connection. Each would have a buffer of 1024 bytes.
+5.The receiver receives these messages and prepares to receive the file.
+6.Sender would add “EOF” to the end of the file being sent.
+7.When the receiver receives “EOF”, it will stop receiving data and would decode the file.
+8.We avoid overflow by only sending packets with a maximum size of 1024.
+  a.The receiver would only receive packets of maximum size of 1024 until finished.
