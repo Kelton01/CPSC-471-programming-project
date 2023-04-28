@@ -2,9 +2,10 @@ from socket import *
 import time
 import os
 import sys
+import pickle
 
 def help():
-    print("help function")
+    print("unknown command.")
 
 def download(serverName, serverPort, file_name):
     dataSocket = socket(AF_INET, SOCK_STREAM)
@@ -28,12 +29,12 @@ def download(serverName, serverPort, file_name):
             done = True
         else:
             file_bytes += data
-            print("Bytes recieved: " + str(len(file_bytes)) + "out of " + file_size, end="\r") 
+            print(str((round( len(file_bytes) / int(file_size),2) * 100)) + "% downloaded." , end="\r")
 
     file.write(file_bytes[0:-3])
     file.close()
     dataSocket.close()
-    print("Success: Downloaded " + file_size + " bytes        ")
+    print("Success: Downloaded: " + file_name + "        ")
 
 def upload(serverName, serverPort, file_name):
     time.sleep(1)
@@ -60,14 +61,14 @@ def upload(serverName, serverPort, file_name):
 
 def ls(serverName, serverPort):
     dataSocket = socket(AF_INET, SOCK_STREAM)
-    dataSocket.connect(('localhost', 5001))
+    dataSocket.bind(('localhost', 5001))
     dataSocket.listen()
     connectionSocket, addr = dataSocket.accept()
 
     data = connectionSocket.recv(1024)
     file_names = pickle.loads(data)
-    print(file_names)
+    print('~~~~~~Files in Directory~~~~~~ \n')
+    for x in file_names:
+        print(f'• {x}\t')
     dataSocket.close()
 
-def quit():
-    print("quit function")

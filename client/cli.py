@@ -40,19 +40,24 @@ while not Disconnect:
     controlCommand = pickle.dumps(all_words)
     if all_words[0] == "get" and len(all_words) == 2:
         controlSocket.send(controlCommand)
-        download(serverName, serverPort, all_words[1])
+        response = controlSocket.recv(1024).decode()
+        if response == 'y':
+            download(serverName, serverPort, all_words[1])
+        elif response == 'n':
+            print(all_words[1] + " does not exist on the server!")
 
     elif all_words[0] == "put" and len(all_words) == 2:
-        controlSocket.send(controlCommand)
-        upload(serverName, serverPort, all_words[1])
+        if os.path.isfile(all_words[1]):
+            controlSocket.send(controlCommand)
+            upload(serverName, serverPort, all_words[1])
+        else:
+            print("file does not exist!")
 
     elif all_words[0] == "ls" and len(all_words) == 1:
-        print('3')
         controlSocket.send(controlCommand)
         ls(serverName, serverPort)
 
     elif all_words[0] == "quit" and len(all_words) == 1:
-        print('4')
         controlSocket.send(controlCommand)
         controlSocket.close()
         Disconnect = True
