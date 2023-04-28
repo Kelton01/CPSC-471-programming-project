@@ -1,3 +1,14 @@
+"""
+James Pham - jpham25@csu.fullerton.edu
+Kelton Benson - kelton01@csu.fullerton.edu
+Phuoc Nguyen - phuocnguyen102800@csu.fullerton.edu
+Arturo Salazar - arturosi1@csu.fullerton.edu
+Kingston Leung - leungkingston@csu.fullerton.edu
+
+CPSC 471-03
+
+"""
+
 from socket import *
 from cli_functions import *
 import os
